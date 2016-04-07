@@ -26,7 +26,7 @@ const int COMMAND_RANDOMED = 6; // Передаётся случайное число, от которого счита
 const int COMMAND_CLIENT_RIGHT = 7; // Клиент угадал
 const int COMMAND_CLIENT_WRONG = 8; // Нет
 
-const int N = 10; // Кол-во карт в игре
+const int N = 15; // Кол-во карт в игре
 int clientScore = 0; // счёт клиента
 std::vector<int> cardsGone; // вектор уже выбранных сервером карт (ушли из игры)
 
@@ -67,7 +67,7 @@ int __cdecl main(void)
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
-		printf("WSAStartup failed with error: %d\n", iResult);
+		printf("инициализация завершилась с ошибкой: %d\n", iResult);
 		return 1;
 	}
 
@@ -80,7 +80,7 @@ int __cdecl main(void)
 	// Установка адрес и порт сервера
 	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
-		printf("getaddrinfo failed with error: %d\n", iResult);//функция получения адреса завершилась с ошибкой
+		printf("установка адреса завершилась с ошибкой: %d\n", iResult);//функция получения адреса завершилась с ошибкой
 		WSACleanup();
 		return 1;
 	}
@@ -88,7 +88,7 @@ int __cdecl main(void)
 	// Создайте сокета для подключения к серверу
 	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 	if (ListenSocket == INVALID_SOCKET) {
-		printf("socket failed with error: %ld\n", WSAGetLastError());//ошибка сокета
+		printf("создание сокета завершилось с ошибкой: %ld\n", WSAGetLastError());//ошибка сокета
 		freeaddrinfo(result);
 		WSACleanup();
 		return 1;
@@ -97,7 +97,7 @@ int __cdecl main(void)
 	// Установка TCP соединения сокета
 	iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {
-		printf("bind failed with error: %d\n", WSAGetLastError());//произошел сбой соединения с ошибкой
+		printf("установка связи завершилась с ошибкой: %d\n", WSAGetLastError());//произошел сбой соединения с ошибкой
 		freeaddrinfo(result);
 		closesocket(ListenSocket);
 		WSACleanup();
@@ -111,7 +111,7 @@ int __cdecl main(void)
 
 	iResult = listen(ListenSocket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR) {
-		printf("listen failed with error: %d\n", WSAGetLastError());
+		printf("прослушивание завершилось с ошибкой: %d\n", WSAGetLastError());
 		closesocket(ListenSocket);
 		WSACleanup();
 		return 1;
@@ -121,7 +121,7 @@ int __cdecl main(void)
 	// Принимаем сокет клиента
 	ClientSocket = accept(ListenSocket, NULL, NULL);
 	if (ClientSocket == INVALID_SOCKET) {
-		printf("accept failed with error: %d\n", WSAGetLastError());//прием клиента завершился с ошибкой
+		printf("Прием завершился с ошибкой: %d\n", WSAGetLastError());//прием клиента завершился с ошибкой
 		closesocket(ListenSocket);
 		WSACleanup();
 		return 1;
@@ -136,7 +136,7 @@ int __cdecl main(void)
 	int currentCommandCode = COMMAND_GAME_STARTED; // код передаваемой команды (игра началась)
 	iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0); // передаём команду клиенту
 	if (iSendResult == SOCKET_ERROR) { // если не удалось, завершаем работу, выводим ошибку (как и везде)
-		printf("send failed with error: %d\n", WSAGetLastError()); //сбой передачи
+		printf("передача завершилась с ошибкой: %d\n", WSAGetLastError()); //сбой передачи
 		closesocket(ClientSocket);
 		WSACleanup();
 		return 1;
@@ -151,7 +151,7 @@ int __cdecl main(void)
 	}
 	else if (iResult == 0)
 	{
-		printf("Connection closed");//соединение закрыто
+		printf("Соединение закрыто");//соединение закрыто
 		return 0;
 	}
 	else
@@ -185,7 +185,7 @@ int __cdecl main(void)
 		currentCommandCode = COMMAND_CARD_PICKED; // отправим команду о выборе карты
 		iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0);
 		if (iSendResult == SOCKET_ERROR) {
-			printf("send failed with error: %d\n", WSAGetLastError());
+			printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			return 1;
@@ -199,7 +199,7 @@ int __cdecl main(void)
 		currentCommandCode = COMMAND_HASH; // и отправим клиенту заголовок сообщения Хэш идёт
 		iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0);
 		if (iSendResult == SOCKET_ERROR) {
-			printf("send failed with error: %d\n", WSAGetLastError());
+			printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			return 1;
@@ -207,7 +207,7 @@ int __cdecl main(void)
 		// А теперь и сам хэш
 		iSendResult = send(ClientSocket, (char*)&hash, sizeof(int), 0);
 		if (iSendResult == SOCKET_ERROR) {
-			printf("send failed with error: %d\n", WSAGetLastError());
+			printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			return 1;
@@ -240,7 +240,7 @@ int __cdecl main(void)
 						// отправим результат проверки догадки клиента
 					iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0);
 					if (iSendResult == SOCKET_ERROR) {
-						printf("send failed with error: %d\n", WSAGetLastError());
+						printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 						closesocket(ClientSocket);
 						WSACleanup();
 						return 1;
@@ -251,7 +251,7 @@ int __cdecl main(void)
 					{
 						iSendResult = send(ClientSocket, (char*)&pickedCard, sizeof(int), 0);
 						if (iSendResult == SOCKET_ERROR) {
-							printf("send failed with error: %d\n", WSAGetLastError());
+							printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 							closesocket(ClientSocket);
 							WSACleanup();
 							return 1;
@@ -263,7 +263,7 @@ int __cdecl main(void)
 					currentCommandCode = COMMAND_RANDOMED;
 					iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0);
 					if (iSendResult == SOCKET_ERROR) {
-						printf("send failed with error: %d\n", WSAGetLastError());
+						printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 						closesocket(ClientSocket);
 						WSACleanup();
 						return 1;
@@ -271,7 +271,7 @@ int __cdecl main(void)
 					// потом само число
 					iSendResult = send(ClientSocket, (char*)&randomNumber, sizeof(int), 0);
 					if (iSendResult == SOCKET_ERROR) {
-						printf("send failed with error: %d\n", WSAGetLastError());
+						printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 						closesocket(ClientSocket);
 						WSACleanup();
 						return 1;
@@ -282,7 +282,7 @@ int __cdecl main(void)
 				}
 				else if (iResult == 0)
 				{
-					printf("Connection closed");
+					printf("Соединение закрыто");
 					return 0;
 				}
 				else
@@ -296,7 +296,7 @@ int __cdecl main(void)
 		}
 		else if (iResult == 0)
 		{
-			printf("Connection closed");
+			printf("Соединение закрыто");
 			return 0;
 		}
 		else
@@ -314,27 +314,20 @@ int __cdecl main(void)
 	currentCommandCode = COMMAND_GAME_FINISHED;
 	iSendResult = send(ClientSocket, (char*)&currentCommandCode, sizeof(int), 0);
 	if (iSendResult == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
+		printf("передача завершилась с ошибкой: %d\n", WSAGetLastError());
 		closesocket(ClientSocket);
 		WSACleanup();
 		return 1;
 	}
 	printf("игра окончена\n");
-
-
-
-
-	// shutdown the connection since we're done
 	//выключение соединения
 	iResult = shutdown(ClientSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed with error: %d\n", WSAGetLastError());
+		printf("отключение соединения завершилось с ошибкой: %d\n", WSAGetLastError());
 		closesocket(ClientSocket);
 		WSACleanup();
 		return 1;
 	}
-
-	// cleanup
 	//очистка
 	closesocket(ClientSocket);
 	WSACleanup();
