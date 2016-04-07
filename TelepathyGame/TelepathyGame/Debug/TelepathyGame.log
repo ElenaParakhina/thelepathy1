@@ -1,0 +1,21 @@
+﻿Построение начато 06.04.2016 10:51:57.
+     1>Проект "D:\4курс2\ЗИ\Telepathy\TelepathyGame\TelepathyGame\TelepathyGame.vcxproj" в узле 2 (целевые объекты Build).
+       Файл проекта содержит ToolsVersion="14.0". Возможно, этот набор инструментов неизвестен или отсутствует (в этом случае проблему можно устранить, установив подходящую версию MSBuild), либо для данной сборки определено конкретное значение ToolsVersion в параметрах политики. Проект обрабатывается как имеющий ToolsVersion="4.0". Дополнительные сведения см. по ссылке http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>InitializeBuildStatus:
+         Создание "Debug\TelepathyGame.unsuccessfulbuild", так как было задано "AlwaysCreate".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\4курс2\зи\telepathy\telepathygame\telepathygame\main.cpp(53): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+     1>d:\4курс2\зи\telepathy\telepathygame\telepathygame\main.cpp(64): warning C4101: recvbuf: неиспользованная локальная переменная
+       Link:
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\4курс2\ЗИ\Telepathy\TelepathyGame\Debug\TelepathyGame.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"D:\4курс2\ЗИ\Telepathy\TelepathyGame\Debug\TelepathyGame.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\4курс2\ЗИ\Telepathy\TelepathyGame\Debug\TelepathyGame.lib" /MACHINE:X86 Debug\main.obj
+         TelepathyGame.vcxproj -> D:\4курс2\ЗИ\Telepathy\TelepathyGame\Debug\TelepathyGame.exe
+       FinalizeBuildStatus:
+         Файл "Debug\TelepathyGame.unsuccessfulbuild" удаляется.
+         Обращение к "Debug\TelepathyGame.lastbuildstate".
+     1>Построение проекта "D:\4курс2\ЗИ\Telepathy\TelepathyGame\TelepathyGame\TelepathyGame.vcxproj" завершено (целевые объекты Build).
+
+Построение успешно завершено.
+
+Затраченное время: 00:00:13.83
